@@ -1,4 +1,4 @@
-const markdown = require('simple-markdown');
+const markdown = require('@khanacademy/simple-markdown/dist/index.js').default;
 const highlight = require('highlight.js');
 
 function htmlTag(tagName, content, attributes, isClosed = true, state = { }) {
@@ -70,6 +70,7 @@ const rules = {
 	}),
 	newline: markdown.defaultRules.newline,
 	escape: markdown.defaultRules.escape,
+	link: markdown.defaultRules.link,
 	autolink: Object.assign({ }, markdown.defaultRules.autolink, {
 		parse: capture => {
 			return {
@@ -151,7 +152,16 @@ const rules = {
 		html: function(node, output, state) {
 			return htmlTag('span', output(node.content, state), { class: 'd-spoiler' }, state);
 		}
-	}
+	},
+	heading: Object.assign({ }, markdown.defaultRules.heading, {
+		match: source => /^ *(#{1,6})([^\n]+?)#* *(?:\n *)+/.exec(source),
+	}),
+	list: Object.assign({ }, markdown.defaultRules.list, {
+		match: function(source, state, prevCapture) {
+			state._list = true
+			return markdown.defaultRules.list.match(source, state, prevCapture);
+		}
+	})
 };
 
 const discordCallbackDefaults = {
@@ -253,9 +263,7 @@ const rulesDiscordOnly = Object.assign({ }, rulesDiscord, {
 	})
 });
 
-const rulesEmbed = Object.assign({ }, rules, {
-	link: markdown.defaultRules.link
-});
+const rulesEmbed = rules;
 
 const parser = markdown.parserFor(rules);
 const htmlOutput = markdown.outputFor(rules, 'html');

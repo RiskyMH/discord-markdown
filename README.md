@@ -1,6 +1,16 @@
 # discord-markdown
 A markdown parser for Discord messages.
 
+## FORKED
+
+Added the following because discord support:
+
+* lists (ordered and unordered)
+* masked links (now always used)
+* headings (h1-h6)
+
+Also used `@khanacademy/simple-markdown` instead of `simple-markdown` because its the updated version.
+
 ## Using
 
 ```bash

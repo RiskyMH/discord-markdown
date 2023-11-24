@@ -1,3 +1,9 @@
+# [3.0.0](https://github.com/brussell98/discord-markdown/compare/v2.5.1...v3.0.0) (2023-11-24)
+
+### Improvements
+
+- Adds list, masked link, and heading support
+
 # [2.5.1](https://github.com/brussell98/discord-markdown/compare/v2.5.0...v2.5.1) (2021-09-17)
 
 ### Improvements

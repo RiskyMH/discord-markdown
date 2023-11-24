@@ -99,10 +99,8 @@ test('don\'t drop arms', () => {
 		.toBe('¯\\_(ツ)_/¯ <em>test</em> ¯\\_(ツ)_/¯');
 });
 
-test('only embeds have [label](link)', () => {
+test('masked link [label](link)', () => {
 	expect(markdown.toHTML('[label](http://example.com)'))
-		.toBe('[label](<a href="http://example.com">http://example.com</a>)');
-	expect(markdown.toHTML('[label](http://example.com)', { embed: true }))
 		.toBe('<a href="http://example.com">label</a>');
 });
 
@@ -130,4 +128,22 @@ test('css module support', () => {
 
 	expect(markdown.toHTML('Hey @everyone check this out!'))
 		.toBe('Hey <span class="d-mention d-user">@everyone</span> check this out!');
+});
+
+test('headings support', () => {
+	expect(markdown.toHTML('# Heading 1\n\n## Heading 2\n### Heading 3\n#### Heading 4\n##### Heading 5\n###### Heading 6\n'))
+		.toBe('<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6</h6>');
+});
+
+test('unordered lists', () => {
+	expect(markdown.toHTML('- item 1\n- item 2\n- item 3'))
+		.toBe('<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>');
+
+	expect(markdown.toHTML('* item 1\n* item 2\n* item 3'))
+		.toBe('<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>');
+});
+
+test('ordered lists', () => {
+	expect(markdown.toHTML('1. item 1\n2. item 2\n3. item 3'))
+		.toBe('<ol start="1"><li>item 1</li><li>item 2</li><li>item 3</li></ol>');
 });
